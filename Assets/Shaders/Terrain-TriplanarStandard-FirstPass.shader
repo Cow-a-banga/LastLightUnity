@@ -1,3 +1,8 @@
+// Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
+
+// modified from Terrain-Standard-FirstPass.shader from Unity 2021.2.0f1 built-in shader source
+// 27 October 2021: add Triplanar cliff shading
+
 Shader "Nature/Terrain/StandardTriplanar" {
     Properties {
         // used in fallback on old cards & base map
