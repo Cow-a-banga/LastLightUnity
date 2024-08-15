@@ -1,4 +1,0 @@
-repository "Last Light@Leaf_Team@cloud"
-  path "/"
-    br "/main"
-    co "/main"
