@@ -47,9 +47,9 @@ Material:
     - _Lightning_Cutoff: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Smoothness: 1000
+    - _Smoothness: 200
     m_Colors:
-    - _Diffuse_Color: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 0}
+    - _Diffuse_Color: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 0}
     - _Fresnel_Color: {r: 1, g: 1, b: 1, a: 0}
     - _Specular_Color: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
