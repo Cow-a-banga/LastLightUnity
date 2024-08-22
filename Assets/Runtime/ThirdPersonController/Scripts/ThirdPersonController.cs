@@ -39,6 +39,9 @@ namespace StarterAssets
         [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
         public float Gravity = -15.0f;
 
+        [Tooltip("Gravity when gliding")]
+        public float GlidingGravity = -2.0f;
+
         [Space(10)]
         [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
         public float JumpTimeout = 0.50f;
@@ -86,6 +89,7 @@ namespace StarterAssets
         private float _rotationVelocity;
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
+        private float _terminalGlidingVelocity = 20.0f;
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -97,6 +101,10 @@ namespace StarterAssets
         private int _animIDJump;
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
+
+        // player states
+        private bool _isGliding = false;
+        private bool _isJumping = false;
 
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
@@ -310,6 +318,7 @@ namespace StarterAssets
                     {
                         _animator.SetBool(_animIDJump, true);
                     }
+                    _input.jump = false;
                 }
 
                 // jump timeout
@@ -317,9 +326,20 @@ namespace StarterAssets
                 {
                     _jumpTimeoutDelta -= Time.deltaTime;
                 }
+                _isGliding = false;
             }
             else
             {
+                if (_input.jump && !_isGliding)
+                {
+                    _isGliding = true;
+                }
+                else if (_input.jump && _isGliding)
+                {
+                    _isGliding = false;
+                }
+                Debug.Log(_isGliding);
+
                 // reset the jump timeout timer
                 _jumpTimeoutDelta = JumpTimeout;
 
@@ -342,10 +362,18 @@ namespace StarterAssets
             }
 
             // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-            if (_verticalVelocity < _terminalVelocity)
+            if(_isGliding && _verticalVelocity < 0.0f)
             {
-                _verticalVelocity += Gravity * Time.deltaTime;
+                _verticalVelocity += GlidingGravity * Time.deltaTime;
             }
+            else
+            {
+                if (_verticalVelocity < _terminalVelocity)
+                {
+                    _verticalVelocity += Gravity * Time.deltaTime;
+                }
+            }
+            Debug.Log(_verticalVelocity);
         }
 
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
