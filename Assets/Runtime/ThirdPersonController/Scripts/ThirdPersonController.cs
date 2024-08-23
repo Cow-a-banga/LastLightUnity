@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -73,6 +74,19 @@ namespace StarterAssets
         [Tooltip("The vertical force applied to keep the player at the swim depth")]
         public float FloatForce = 5.0f;
 
+        [Header("Climbing")]
+        [Tooltip("Raycast to wall distance")]
+        public float RaycastDistance = 3.0f;
+
+        [Tooltip("Length of raycast timeout when jumping away from wall")]
+        public float RaycastTimeout = 1.0f;
+        
+        [Tooltip("Climbing speed")]
+        public float ClimbingSpeed = 10.0f;
+
+        [Tooltip("Power of jumping away from the wall")]
+        public float ClimbingJumpPower = 30.0f;
+
         [Header("Cinemachine")]
         [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
         public GameObject CinemachineCameraTarget;
@@ -105,6 +119,7 @@ namespace StarterAssets
         // timeout deltatime
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
+        private float _raycastTimeoutDelta;
 
         // animation IDs
         private int _animIDSpeed;
@@ -115,8 +130,8 @@ namespace StarterAssets
 
         // player states
         private bool _isGliding = false;
-        private bool _isJumping = false;
         private bool _isSwimming = false;
+        private bool _isClimbing = false;
         private GameObject _waterObject;
         private float _waterSurfaceHeight;
 
@@ -178,13 +193,74 @@ namespace StarterAssets
         {
             _hasAnimator = TryGetComponent(out _animator);
 
+            OnWallCheck();
             InWaterCheck();
-            Debug.Log(_isSwimming);
-            JumpAndGravity();
-            GroundedCheck();
-            Move();
             
+            if(_isClimbing)
+            {
+                ClimbingMove();
+            }
+            else
+            {
+                JumpAndGravity();
+                GroundedCheck();
+                Move();
+            }
+        }
+
+        private void ClimbingMove()
+        {     
+            if(_input.jump)
+            {
+                _input.jump = false;
+                _isClimbing = false;
+                _raycastTimeoutDelta = RaycastTimeout;
+                var jumpDirection = -transform.forward;
+                transform.rotation = Quaternion.LookRotation(jumpDirection);
+                var jumpVector = jumpDirection * ClimbingJumpPower;
+                _controller.Move(jumpVector * Time.deltaTime);
+                return;
+            }
+
+
+            var input = _input.move.normalized;
+            _controller.Move( ClimbingSpeed * Time.deltaTime * transform.TransformDirection(input));
+
+
+        }
+
+        private void OnWallCheck()
+        {         
+            //var distance = _isClimbing ? RaycastDistance * 2 : RaycastDistance;
             
+            if (_raycastTimeoutDelta >= 0.0f)
+            {
+                _raycastTimeoutDelta -= Time.deltaTime;
+                return;
+            }
+
+
+            RaycastHit hit;
+            var ray = new Ray(transform.position + new Vector3(0,_controller.bounds.extents.y,0), transform.forward);
+            var wallDetected = Physics.Raycast(ray, out hit,  RaycastDistance);
+
+            if(!wallDetected && _isClimbing)
+            {
+                var sideRayOrigin = ray.origin + (_input.move.x > 0.0f ? 1 : -1) * _controller.radius *  transform.right;
+
+                wallDetected = Physics.Raycast(new Ray(sideRayOrigin, transform.forward), out hit, RaycastDistance * 5.0f);
+            }
+
+            if(wallDetected)
+            {
+                _isClimbing = true;
+                transform.forward = -hit.normal;
+                transform.position = Vector3.Lerp(transform.position, hit.point + hit.normal * 0.51f, 10f * Time.fixedDeltaTime);
+            }
+            else
+            {
+                _isClimbing = false;
+            }
         }
 
         private void InWaterCheck()
