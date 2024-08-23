@@ -39,6 +39,9 @@ namespace StarterAssets
         [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
         public float Gravity = -15.0f;
 
+        [Tooltip("Gravity when gliding")]
+        public float GlidingGravity = -2.0f;
+
         [Space(10)]
         [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
         public float JumpTimeout = 0.50f;
@@ -58,6 +61,17 @@ namespace StarterAssets
 
         [Tooltip("What layers the character uses as ground")]
         public LayerMask GroundLayers;
+
+        [Header("Swimming")]
+        [Tooltip("Move speed of the character while swimming in m/s")]
+        public float SwimSpeed = 1.5f;
+
+        [Range(0,1)]
+        [Tooltip("The depth at which the player should stay while swimming")]
+        public float SwimDepth = 0.5f;
+
+        [Tooltip("The vertical force applied to keep the player at the swim depth")]
+        public float FloatForce = 5.0f;
 
         [Header("Cinemachine")]
         [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
@@ -86,6 +100,7 @@ namespace StarterAssets
         private float _rotationVelocity;
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
+        private float _terminalGlidingVelocity = 20.0f;
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -97,6 +112,13 @@ namespace StarterAssets
         private int _animIDJump;
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
+
+        // player states
+        private bool _isGliding = false;
+        private bool _isJumping = false;
+        private bool _isSwimming = false;
+        private GameObject _waterObject;
+        private float _waterSurfaceHeight;
 
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
@@ -156,9 +178,38 @@ namespace StarterAssets
         {
             _hasAnimator = TryGetComponent(out _animator);
 
+            InWaterCheck();
+            Debug.Log(_isSwimming);
             JumpAndGravity();
             GroundedCheck();
             Move();
+            
+            
+        }
+
+        private void InWaterCheck()
+        {
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, GroundedRadius);
+            foreach (var hitCollider in hitColliders)
+            {
+                if (hitCollider.CompareTag("Water"))
+                {
+                    if (!_isSwimming)
+                    {
+                        _isSwimming = true;
+                        _waterObject = hitCollider.gameObject;
+                        _waterSurfaceHeight = _waterObject.transform.position.y + _waterObject.GetComponent<Collider>().bounds.extents.y;
+                    }
+                    return;
+                }
+            }
+
+            if(_isSwimming)
+            {
+                _isSwimming = false;
+                _waterObject = null;
+                _waterSurfaceHeight = 0.0f;
+            }
         }
 
         private void LateUpdate()
@@ -214,7 +265,7 @@ namespace StarterAssets
         private void Move()
         {
             // set target speed based on move speed, sprint speed and if sprint is pressed
-            float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+            float targetSpeed = _isSwimming ? SwimSpeed : _input.sprint ? SprintSpeed : MoveSpeed;
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
@@ -266,10 +317,22 @@ namespace StarterAssets
 
 
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+            Vector3 movement = targetDirection.normalized * (_speed * Time.deltaTime);
+
+            if (_isSwimming && _verticalVelocity < 0.0f)
+            {
+                float playerHeight = _controller.bounds.extents.y;
+                float desiredY = _waterSurfaceHeight - SwimDepth * playerHeight;
+                float newYPosition = Mathf.Lerp(transform.position.y, desiredY, 0.1f);
+                movement.y = newYPosition - transform.position.y;
+            }
+            else
+            {
+                movement.y = _verticalVelocity * Time.deltaTime;
+            }
 
             // move the player
-            _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
-                             new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+            _controller.Move(movement);
 
             // update animator if using character
             if (_hasAnimator)
@@ -281,7 +344,7 @@ namespace StarterAssets
 
         private void JumpAndGravity()
         {
-            if (Grounded)
+            if (Grounded || _isSwimming)
             {
                 // reset the fall timeout timer
                 _fallTimeoutDelta = FallTimeout;
@@ -310,6 +373,7 @@ namespace StarterAssets
                     {
                         _animator.SetBool(_animIDJump, true);
                     }
+                    _input.jump = false;
                 }
 
                 // jump timeout
@@ -317,9 +381,19 @@ namespace StarterAssets
                 {
                     _jumpTimeoutDelta -= Time.deltaTime;
                 }
+                _isGliding = false;
             }
             else
             {
+                if (_input.jump && !_isGliding)
+                {
+                    _isGliding = true;
+                }
+                else if (_input.jump && _isGliding)
+                {
+                    _isGliding = false;
+                }
+
                 // reset the jump timeout timer
                 _jumpTimeoutDelta = JumpTimeout;
 
@@ -342,9 +416,16 @@ namespace StarterAssets
             }
 
             // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-            if (_verticalVelocity < _terminalVelocity)
+            if(_isGliding && _verticalVelocity < 0.0f)
             {
-                _verticalVelocity += Gravity * Time.deltaTime;
+                _verticalVelocity += GlidingGravity * Time.deltaTime;
+            }
+            else
+            {
+                if (_verticalVelocity < _terminalVelocity)
+                {
+                    _verticalVelocity += Gravity * Time.deltaTime;
+                }
             }
         }
 
