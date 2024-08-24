@@ -127,6 +127,7 @@ namespace StarterAssets
         private int _animIDJump;
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
+        private int _animIDSwim;
 
         // player states
         private bool _isGliding = false;
@@ -275,6 +276,11 @@ namespace StarterAssets
                         _isSwimming = true;
                         _waterObject = hitCollider.gameObject;
                         _waterSurfaceHeight = _waterObject.transform.position.y + _waterObject.GetComponent<Collider>().bounds.extents.y;
+
+                        if(_animator)
+                        {
+                            _animator.SetBool(_animIDSwim, _isSwimming);
+                        }
                     }
                     return;
                 }
@@ -285,6 +291,11 @@ namespace StarterAssets
                 _isSwimming = false;
                 _waterObject = null;
                 _waterSurfaceHeight = 0.0f;
+
+                if(_animator)
+                {
+                    _animator.SetBool(_animIDSwim, _isSwimming);
+                }
             }
         }
 
@@ -300,6 +311,7 @@ namespace StarterAssets
             _animIDJump = Animator.StringToHash("Jump");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+            _animIDSwim = Animator.StringToHash("Swim");
         }
 
         private void GroundedCheck()
