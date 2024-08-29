@@ -9,6 +9,13 @@ using UnityEngine.InputSystem;
 
 namespace StarterAssets
 {
+public enum StepType
+{
+    Grass,
+    Earth,
+    Rock
+}
+
     [RequireComponent(typeof(CharacterController))]
 #if ENABLE_INPUT_SYSTEM
     [RequireComponent(typeof(PlayerInput))]
@@ -29,9 +36,21 @@ namespace StarterAssets
         [Tooltip("Acceleration and deceleration")]
         public float SpeedChangeRate = 10.0f;
 
-        public AudioClip LandingAudioClip;
-        public AudioClip[] FootstepAudioClips;
-        [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
+        public StepType StepType;
+        public AudioClip LandingGrassAudioClip;
+        public AudioClip LandingEarthAudioClip;
+        public AudioClip LandingWaterAudioClip;
+        public AudioClip LandingRockAudioClip;
+        public AudioClip SwimAudioClip;
+        public AudioClip WaterJumpAudioClip;
+        [Range(0,1)]
+        public float LandingAudioVolume = 0.5f;
+        public AudioClip[] FootstepGrassAudioClips;
+        public AudioClip[] FootstepEarthAudioClips;
+        public AudioClip[] FootstepWaterAudioClips;
+        public AudioClip[] FootstepRockAudioClips;
+        [Range(0,1)]
+        public float FootstepAudioVolume = 0.5f;
 
         [Space(10)]
         [Tooltip("The height the player can jump")]
@@ -271,11 +290,18 @@ namespace StarterAssets
             {
                 if (hitCollider.CompareTag("Water"))
                 {
+                    var waterObject = hitCollider.gameObject;
+                    var waterHeight =  waterObject.transform.position.y + waterObject.GetComponent<Collider>().bounds.extents.y;
+                    
+                    float playerHeight = _controller.bounds.extents.y;
+                    float desiredY = waterHeight - SwimDepth * playerHeight;
+
                     if (!_isSwimming)
                     {
                         _isSwimming = true;
                         _waterObject = hitCollider.gameObject;
                         _waterSurfaceHeight = _waterObject.transform.position.y + _waterObject.GetComponent<Collider>().bounds.extents.y;
+                        AudioSource.PlayClipAtPoint(LandingWaterAudioClip, transform.TransformPoint(_controller.center), LandingAudioVolume);
 
                         if(_animator)
                         {
@@ -461,6 +487,12 @@ namespace StarterAssets
                     {
                         _animator.SetBool(_animIDJump, true);
                     }
+
+                    if (_isSwimming)
+                    {
+                        AudioSource.PlayClipAtPoint(SwimAudioClip, transform.TransformPoint(_controller.center), LandingAudioVolume);    
+                    }
+
                     _input.jump = false;
                 }
 
@@ -540,22 +572,36 @@ namespace StarterAssets
 
         private void OnFootstep(AnimationEvent animationEvent)
         {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
+            AudioClip[] footstepAudioClips = StepType switch
             {
-                if (FootstepAudioClips.Length > 0)
-                {
-                    var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
-                }
+                StepType.Grass => FootstepGrassAudioClips,
+                StepType.Earth => FootstepEarthAudioClips,
+                StepType.Rock => FootstepRockAudioClips,
+                _ => new AudioClip[0],
+            };
+            if (footstepAudioClips.Length > 0)
+            {
+                var index = Random.Range(0, footstepAudioClips.Length);
+                AudioSource.PlayClipAtPoint(footstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
             }
         }
 
         private void OnLand(AnimationEvent animationEvent)
         {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
+            AudioClip landingAudioClip = StepType switch
             {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
-            }
+                StepType.Grass => LandingGrassAudioClip,
+                StepType.Earth => LandingEarthAudioClip,
+                StepType.Rock => LandingRockAudioClip,
+                _ => null,
+            };
+
+            AudioSource.PlayClipAtPoint(landingAudioClip, transform.TransformPoint(_controller.center), LandingAudioVolume);
+        }
+
+        private void OnSwim(AnimationEvent animationEvent)
+        {
+            AudioSource.PlayClipAtPoint(SwimAudioClip, transform.TransformPoint(_controller.center), LandingAudioVolume);
         }
     }
 }
