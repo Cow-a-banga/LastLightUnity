@@ -149,7 +149,6 @@ public enum StepType
         private int _animIDSwim;
 
         // player states
-        private bool _isGliding = false;
         private bool _isSwimming = false;
         private bool _isClimbing = false;
         private GameObject _waterObject;
@@ -501,19 +500,10 @@ public enum StepType
                 {
                     _jumpTimeoutDelta -= Time.deltaTime;
                 }
-                _isGliding = false;
+                _input.fly = false;
             }
             else
             {
-                if (_input.jump && !_isGliding)
-                {
-                    _isGliding = true;
-                }
-                else if (_input.jump && _isGliding)
-                {
-                    _isGliding = false;
-                }
-
                 // reset the jump timeout timer
                 _jumpTimeoutDelta = JumpTimeout;
 
@@ -536,7 +526,7 @@ public enum StepType
             }
 
             // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-            if(_isGliding && _verticalVelocity < 0.0f)
+            if(_input.fly && _verticalVelocity < 0.0f)
             {
                 _verticalVelocity += GlidingGravity * Time.deltaTime;
             }
