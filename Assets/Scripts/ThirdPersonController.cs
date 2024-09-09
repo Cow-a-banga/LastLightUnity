@@ -106,6 +106,12 @@ public enum StepType
         [Tooltip("Power of jumping away from the wall")]
         public float ClimbingJumpPower = 30.0f;
 
+        [Header("Stamina")]
+        public float MaxStamina = 100.0f;
+        public float StaminaRegenPerSecond = 20.0f;
+        public float FlyStaminaPerSecond = 5.0f;
+        public float JumpStamina = 10.0f;
+
         [Header("Cinemachine")]
         [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
         public GameObject CinemachineCameraTarget;
@@ -134,6 +140,7 @@ public enum StepType
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
         private float _terminalGlidingVelocity = 20.0f;
+        private float _stamina;
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -206,10 +213,12 @@ public enum StepType
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+            _stamina = MaxStamina;
         }
 
         private void Update()
         {
+            Debug.Log(_stamina);
             _hasAnimator = TryGetComponent(out _animator);
 
             OnWallCheck();
@@ -457,8 +466,33 @@ public enum StepType
 
         private void JumpAndGravity()
         {
+            if (_input.jump && _jumpTimeoutDelta <= 0.0f && _stamina >= JumpStamina)
+                {
+                    _stamina -= JumpStamina;
+                    // the square root of H * -2 * G = how much velocity needed to reach desired height
+                    _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+
+                    // update animator if using character
+                    if (_hasAnimator)
+                    {
+                        _animator.SetBool(_animIDFreeFall, false);
+                        _animator.SetBool(_animIDJump, true);
+                    }
+
+                    if (_isSwimming)
+                    {
+                        AudioSource.PlayClipAtPoint(SwimAudioClip, transform.TransformPoint(_controller.center), LandingAudioVolume);    
+                    }
+
+                    _input.jump = false;
+                    Grounded = false;
+                }
+
+
             if (Grounded || _isSwimming)
             {
+                _stamina = Mathf.Min(_stamina + StaminaRegenPerSecond * Time.deltaTime, MaxStamina);
+
                 // reset the fall timeout timer
                 _fallTimeoutDelta = FallTimeout;
 
@@ -476,25 +510,7 @@ public enum StepType
                 }
 
                 // Jump
-                if (_input.jump && _jumpTimeoutDelta <= 0.0f)
-                {
-                    // the square root of H * -2 * G = how much velocity needed to reach desired height
-                    _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-
-                    // update animator if using character
-                    if (_hasAnimator)
-                    {
-                        _animator.SetBool(_animIDJump, true);
-                    }
-
-                    if (_isSwimming)
-                    {
-                        AudioSource.PlayClipAtPoint(SwimAudioClip, transform.TransformPoint(_controller.center), LandingAudioVolume);    
-                    }
-
-                    _input.jump = false;
-                }
-
+                
                 // jump timeout
                 if (_jumpTimeoutDelta >= 0.0f)
                 {
@@ -526,8 +542,9 @@ public enum StepType
             }
 
             // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-            if(_input.fly && _verticalVelocity < 0.0f)
+            if(_input.fly && _verticalVelocity < 0.0f && _stamina > FlyStaminaPerSecond)
             {
+                _stamina -= FlyStaminaPerSecond * Time.deltaTime;
                 _verticalVelocity += GlidingGravity * Time.deltaTime;
             }
             else

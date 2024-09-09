@@ -1048,7 +1048,7 @@ MonoBehaviour:
   JumpHeight: 8
   Gravity: -150
   GlidingGravity: -7
-  JumpTimeout: 0.3
+  JumpTimeout: 0
   FallTimeout: 0.4
   Grounded: 1
   GroundedOffset: -0.14
@@ -1063,6 +1063,10 @@ MonoBehaviour:
   RaycastTimeout: 1
   ClimbingSpeed: 10
   ClimbingJumpPower: 30
+  MaxStamina: 100
+  StaminaRegenPerSecond: 100
+  FlyStaminaPerSecond: 5
+  JumpStamina: 10
   CinemachineCameraTarget: {fileID: 209890346}
   TopClamp: 70
   BottomClamp: -30
@@ -1154,9 +1158,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RigLayers:
   - m_Rig: {fileID: 1754078615}
-    m_Active: 1
+    m_Active: 0
   - m_Rig: {fileID: 810464670}
-    m_Active: 1
+    m_Active: 0
   m_Effectors: []
 --- !u!114 &278551885
 MonoBehaviour:
@@ -4322,6 +4326,10 @@ PrefabInstance:
       value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: JumpTimeout
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: SprintSpeed
       value: 75
       objectReference: {fileID: 0}
@@ -4340,6 +4348,10 @@ PrefabInstance:
     - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: CameraAngleOverride
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: StaminaRegenPerSecond
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: FootstepRockAudioClips.Array.size
