@@ -218,7 +218,7 @@ public enum StepType
 
         private void Update()
         {
-            Debug.Log(_stamina);
+            //Debug.Log(_stamina);
             _hasAnimator = TryGetComponent(out _animator);
 
             OnWallCheck();
