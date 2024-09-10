@@ -132,7 +132,7 @@
 				// Calculate the color of the water based on the depth using our two gradient colors.
 				float waterDepthDifference01 = saturate(depthDifference / _DepthMaxDistance);
 				float4 waterColor = lerp(_DepthGradientShallow, _DepthGradientDeep, waterDepthDifference01);
-				
+
 				// Retrieve the view-space normal of the surface behind the
 				// pixel we are currently rendering.
 				float3 existingNormal = tex2Dproj(_CameraNormalsTexture, UNITY_PROJ_COORD(i.screenPosition));

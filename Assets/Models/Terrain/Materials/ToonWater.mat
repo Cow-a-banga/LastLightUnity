@@ -73,6 +73,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AmbientIntensity: 0.159
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DepthMaxDistance: 1
@@ -92,8 +93,8 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _SurfaceDistortionAmount: 0.1
-    - _SurfaceNoiseCutoff: 0.55
+    - _SurfaceDistortionAmount: 0.187
+    - _SurfaceNoiseCutoff: 0.532
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:

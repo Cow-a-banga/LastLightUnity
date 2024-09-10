@@ -17,7 +17,7 @@ public class LightSwitcher : MonoBehaviour
     {
         if (Input.GetKeyDown(switchKey))
         {
-            directionalLight.enabled = !directionalLight.enabled;
+            directionalLight.intensity = directionalLight.intensity > 0.5f ? 0.001f : 1.0f; 
             pointLight.enabled = !pointLight.enabled;
         }    
     }
