@@ -13,12 +13,33 @@ public class LightSwitcher : MonoBehaviour
     [Tooltip("Клавиша переключения")]
     public KeyCode switchKey = KeyCode.L;
 
+    private DialogueVariables _dialogueVariables;
+    private bool lightOn = true;
+
+    void Start()
+    {
+        _dialogueVariables = GetComponent<DialogueManager>().DialogueVariables;
+    }
+
+    private void SwitchLight()
+    {
+        lightOn = !lightOn;
+        directionalLight.intensity = lightOn ? 1.0f : 0.001f; 
+        pointLight.enabled = !lightOn;
+        _dialogueVariables.SetVariable("light_on", new Ink.Runtime.BoolValue(lightOn));
+        
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(switchKey))
         {
-            directionalLight.intensity = directionalLight.intensity > 0.5f ? 0.001f : 1.0f; 
-            pointLight.enabled = !pointLight.enabled;
-        }    
+            SwitchLight();
+        }
+
+        if(((Ink.Runtime.BoolValue)_dialogueVariables.GetVariable("light_on")).value != lightOn)
+        {
+            SwitchLight();
+        }  
     }
 }

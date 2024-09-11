@@ -1,11 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ink.Runtime;
+using Ink.UnityIntegration;
 
 public class DialogueManager : MonoBehaviour
 {
     [Tooltip("JSON файл диалога")]
     public TextAsset inkJson;
+
+    [Tooltip("Файл с глобальными переменными ink")]
+    public InkFile globalsInkFile;
 
     private Story _story;
 
@@ -13,10 +17,23 @@ public class DialogueManager : MonoBehaviour
     
     public bool canContinue => _story.canContinue;
     public bool hasChoices => _story.currentChoices.Count > 0;
+    public DialogueVariables DialogueVariables {get; private set;}
+
+    public void Awake()
+    {
+        DialogueVariables = new(globalsInkFile.filePath);
+    }
 
     public void StartStory()
     {
         _story = new Story(inkJson.text);
+        DialogueVariables.StartListening(_story);
+    }
+
+    public void StopStory()
+    {
+        DialogueVariables.StopListening(_story);
+        _story = null;
     }
 
     public string Continue()

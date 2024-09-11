@@ -41,6 +41,7 @@ public class DialogueInteractManager : MonoBehaviour
             }
             else if (_manager.isOver)
             {
+                _manager.StopStory();
                 _document.rootVisualElement.style.display = DisplayStyle.None;
             }
             else

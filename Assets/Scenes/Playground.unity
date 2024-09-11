@@ -3907,6 +3907,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inkJson: {fileID: 4900000, guid: 96488bc2cf0a2324e8c2ccc0bdd19dad, type: 3}
+  globalsInkFile:
+    inkAsset: {fileID: 102900000, guid: a4a65135ab0324444a479113d7b76e84, type: 3}
+    jsonAssetDirectory: {fileID: 0}
+    jsonAsset: {fileID: 0}
+    unhandledCompileErrors: []
+    recursiveIncludeErrorPaths: []
+    errors: []
+    warnings: []
+    todos: []
+    masterInkAssets: []
+    localIncludePaths: []
+    includes: []
 --- !u!1001 &1695137529
 PrefabInstance:
   m_ObjectHideFlags: 0
