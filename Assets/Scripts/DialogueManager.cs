@@ -5,8 +5,8 @@ using Ink.UnityIntegration;
 
 public class DialogueManager : MonoBehaviour
 {
-    [Tooltip("JSON файл диалога")]
-    public TextAsset inkJson;
+    public TextAsset InkJson { get; set; }
+    public string CharacterName { get; set; }
 
     [Tooltip("Файл с глобальными переменными ink")]
     public InkFile globalsInkFile;
@@ -26,7 +26,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartStory()
     {
-        _story = new Story(inkJson.text);
+        _story = new Story(InkJson.text);
         DialogueVariables.StartListening(_story);
     }
 

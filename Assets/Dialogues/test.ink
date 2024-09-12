@@ -1,7 +1,6 @@
 INCLUDE globals.ink
 
 VAR choices_made = 0
-~light_on = false
 
 Псс. Девочка, подойди сюда.
 Да не бойся, подходи.

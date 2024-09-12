@@ -12,11 +12,39 @@ public class DialogueInteractManager : MonoBehaviour
     [Tooltip("Клавиша включения")]
     public KeyCode switchKey = KeyCode.E;
 
+    [Tooltip("Имя главного героя")]
+    public string PlayerName = "Ария";
+    
     private UIDocument _document;
     private DialogueManager _manager;
     private Label _textLabel;
     private VisualElement _choiceContainer;
     private List<Choice> _choices;
+
+    private void ShowPhrase(string lineFromInk)
+    {
+        var parts = lineFromInk.Split(':');
+        string phraseName = null;
+
+        if (parts.Length == 2)
+        {
+            phraseName = parts[0].Trim() switch
+            {
+                "Me" => PlayerName,
+                "They" => _manager.CharacterName,
+                _ => null
+            };
+        }
+        
+        var message = (parts.Length == 2 ? parts[1] : parts[0]).Trim();
+
+        if (phraseName is not null)
+        {
+            Debug.Log(phraseName);
+        }
+        
+        _textLabel.text = message;
+    }
 
     
     void OnEnable()
@@ -31,13 +59,12 @@ public class DialogueInteractManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(switchKey))
+        if (Input.GetKeyDown(switchKey) && _manager.InkJson is not null)
         {
             if (_document.rootVisualElement.style.display == DisplayStyle.None){
                 _manager.StartStory();
                 _document.rootVisualElement.style.display = DisplayStyle.Flex;
-                var value = _manager.Continue();
-                _textLabel.text = value;
+                ShowPhrase(_manager.Continue());
             }
             else if (_manager.isOver)
             {
@@ -48,8 +75,7 @@ public class DialogueInteractManager : MonoBehaviour
             {
                 if (_manager.canContinue)
                 {
-                    var value = _manager.Continue();
-                    _textLabel.text = value;
+                    ShowPhrase(_manager.Continue());
                     ClearChoices();
                 }
                 else if (_manager.hasChoices)

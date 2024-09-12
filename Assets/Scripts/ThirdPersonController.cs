@@ -279,7 +279,7 @@ public enum StepType
                 wallDetected = Physics.Raycast(new Ray(sideRayOrigin, transform.forward), out hit, RaycastDistance * 5.0f);
             }
 
-            if(wallDetected)
+            if(wallDetected && !hit.collider.isTrigger)
             {
                 _isClimbing = true;
                 transform.forward = -hit.normal;
