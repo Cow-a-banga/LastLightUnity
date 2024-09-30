@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using StarterAssets;
 using StarterAssets.States;
 using UnityEngine;
 

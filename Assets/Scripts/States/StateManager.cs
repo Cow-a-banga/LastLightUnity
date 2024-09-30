@@ -1,16 +1,10 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using StarterAssets;
 using UnityEngine;
 
 public class StateManager : MonoBehaviour
 {
-    //TODO: Есть проблема с переходов Grounded -> Fall в анимации (нет аниамции падения)
-    //TODO: Узнать у GPT как лучше сделать: использовать порядок, писать взаимоисключающие условия или для каждого стейта прописывать куда он может перейти
-    
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
     {
         if (lfAngle < -360f) lfAngle += 360f;

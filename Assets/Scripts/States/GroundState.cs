@@ -1,5 +1,4 @@
 using System;
-using StarterAssets;
 using StarterAssets.States;
 using UnityEngine;
 
