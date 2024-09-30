@@ -11,12 +11,12 @@ public class DialogueManager : MonoBehaviour
     [Tooltip("Файл с глобальными переменными ink")]
     public InkFile globalsInkFile;
 
-    private Story _story;
+    public Story Story;
 
-    public bool isOver => !_story.canContinue && _story.currentChoices.Count == 0;
+    public bool isOver => !Story.canContinue && Story.currentChoices.Count == 0;
     
-    public bool canContinue => _story.canContinue;
-    public bool hasChoices => _story.currentChoices.Count > 0;
+    public bool canContinue => Story.canContinue;
+    public bool hasChoices => Story.currentChoices.Count > 0;
     public DialogueVariables DialogueVariables {get; private set;}
 
     public void Awake()
@@ -26,28 +26,28 @@ public class DialogueManager : MonoBehaviour
 
     public void StartStory()
     {
-        _story = new Story(InkJson.text);
-        DialogueVariables.StartListening(_story);
+        Story = new Story(InkJson.text);
+        DialogueVariables.StartListening(Story);
     }
 
     public void StopStory()
     {
-        DialogueVariables.StopListening(_story);
-        _story = null;
+        DialogueVariables.StopListening(Story);
+        Story = null;
     }
 
     public string Continue()
     {
-        return _story.Continue();
+        return Story.Continue();
     }
     
     public List<Choice> GetChoices()
     {
-        return _story.currentChoices;
+        return Story.currentChoices;
     }
 
     public void Choice(int index)
     {
-        _story.ChooseChoiceIndex(index);
+        Story.ChooseChoiceIndex(index);
     }
 }

@@ -710,13 +710,20 @@ GameObject:
   - component: {fileID: 278551882}
   - component: {fileID: 278551881}
   - component: {fileID: 278551880}
-  - component: {fileID: 278551879}
   - component: {fileID: 278551878}
   - component: {fileID: 278551877}
   - component: {fileID: 278551876}
   - component: {fileID: 278551883}
   - component: {fileID: 278551885}
   - component: {fileID: 278551884}
+  - component: {fileID: 278551893}
+  - component: {fileID: 278551892}
+  - component: {fileID: 278551891}
+  - component: {fileID: 278551890}
+  - component: {fileID: 278551889}
+  - component: {fileID: 278551888}
+  - component: {fileID: 278551887}
+  - component: {fileID: 278551886}
   m_Layer: 6
   m_Name: PlayerArmature
   m_TagString: Player
@@ -751,7 +758,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 278551879}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: InputMove
         m_Mode: 0
@@ -767,7 +774,7 @@ MonoBehaviour:
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow,/XInputControllerWindows/leftStick]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 278551879}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: InputLook
         m_Mode: 0
@@ -783,7 +790,7 @@ MonoBehaviour:
     m_ActionName: Player/Look[/Mouse/delta,/XInputControllerWindows/rightStick]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 278551879}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: InputJump
         m_Mode: 0
@@ -799,7 +806,7 @@ MonoBehaviour:
     m_ActionName: Player/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 278551879}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: InputSprint
         m_Mode: 0
@@ -815,7 +822,7 @@ MonoBehaviour:
     m_ActionName: Player/Sprint[/Keyboard/leftShift,/XInputControllerWindows/leftTrigger]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 278551879}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: StarterAssets.ThirdPersonController, Assembly-CSharp
         m_MethodName: OnFly
         m_Mode: 0
@@ -871,102 +878,6 @@ MonoBehaviour:
     m_Bits: 0
   canPush: 0
   strength: 1.1
---- !u!114 &278551879
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
-  m_PrefabInstance: {fileID: 1762682258}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 278551875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 48
-  SprintSpeed: 75
-  RotationSmoothTime: 0.12
-  SpeedChangeRate: 10
-  StepType: 0
-  LandingGrassAudioClip: {fileID: 8300000, guid: dca0c2d49c241804b8cfc209aa821803, type: 3}
-  LandingEarthAudioClip: {fileID: 8300000, guid: e84abef8759661a4ab7a9d1d3b897e73, type: 3}
-  LandingWaterAudioClip: {fileID: 8300000, guid: f78382892f800b4409f2b78c85885c05, type: 3}
-  LandingRockAudioClip: {fileID: 8300000, guid: 72a2661d015582a40b990b3fe1178306, type: 3}
-  SwimAudioClip: {fileID: 8300000, guid: 3e0c6899afe26ac4e8d5b40bf5a5e139, type: 3}
-  WaterJumpAudioClip: {fileID: 8300000, guid: 477fa3992eee6b848a5675fa03d11a60, type: 3}
-  LandingAudioVolume: 0.5
-  FootstepGrassAudioClips:
-  - {fileID: 8300000, guid: e530e13a0f77357458ec53996015101c, type: 3}
-  - {fileID: 8300000, guid: b252be8c054e45b4dba75e6f284bf424, type: 3}
-  - {fileID: 8300000, guid: 4757b569eaf63124aa63f5a707c1ce71, type: 3}
-  - {fileID: 8300000, guid: 55ce63271325c7a4eb7411d1b70a8a4c, type: 3}
-  - {fileID: 8300000, guid: aab74bac0b0a0b24f81946f477b48fb6, type: 3}
-  - {fileID: 8300000, guid: 6d906c64a1158a44bb1a05f1d58523ff, type: 3}
-  - {fileID: 8300000, guid: a727123a5caf3d645b62fe81d3e0c467, type: 3}
-  - {fileID: 8300000, guid: 562d3d1a26e03084485aa11514d7ad01, type: 3}
-  - {fileID: 8300000, guid: 51c26b4b7fedf8d44b7d97eec63dc6ab, type: 3}
-  - {fileID: 8300000, guid: 818e3c2a890df824cbfebc046126fa0a, type: 3}
-  FootstepEarthAudioClips:
-  - {fileID: 8300000, guid: 84f6407fc6057dd4b968d52dd536520f, type: 3}
-  - {fileID: 8300000, guid: 905bcacb5129fd048bc8c7dbd02fea62, type: 3}
-  - {fileID: 8300000, guid: ec7a62d4600beb54694b08558ecdb075, type: 3}
-  - {fileID: 8300000, guid: 1eff9abc739a9264a8d5c2a4e0c52f71, type: 3}
-  - {fileID: 8300000, guid: a2ac22dc367bf99499c61ab6ea9c9f0c, type: 3}
-  - {fileID: 8300000, guid: 63f09fd29d3c99745a04a3b5e9bdb00c, type: 3}
-  - {fileID: 8300000, guid: f35c24d1726ebd04db2894c4b2d6b9f4, type: 3}
-  - {fileID: 8300000, guid: f5216b582b823db4cb6e123121ebdc36, type: 3}
-  - {fileID: 8300000, guid: 96afcac8cd9a52d4299679c38b106b37, type: 3}
-  - {fileID: 8300000, guid: 6416742645831304a88fb5b30d03f97c, type: 3}
-  FootstepWaterAudioClips:
-  - {fileID: 8300000, guid: 45c295676875d2e45aa60e487237ce7a, type: 3}
-  - {fileID: 8300000, guid: d0d2f21e0a3da874795db7b84fb6e845, type: 3}
-  - {fileID: 8300000, guid: 01e9d3b6c977df143a4b43be72fb88b0, type: 3}
-  - {fileID: 8300000, guid: cd9155fdeb437194181e3eef0c5b97bc, type: 3}
-  - {fileID: 8300000, guid: 7e3080d6c34b10740ad2c75465fe277a, type: 3}
-  - {fileID: 8300000, guid: 94d42525175c1e240b93dfaf25accf43, type: 3}
-  - {fileID: 8300000, guid: 8a05d3322e02ac841a71a043dd680ead, type: 3}
-  - {fileID: 8300000, guid: 923d05dde2094544192c0e937e49ddaf, type: 3}
-  - {fileID: 8300000, guid: ad80676c4c38b614aa0c5cdf0bd46d9e, type: 3}
-  - {fileID: 8300000, guid: 080e7f69f93aa084f88376028185186f, type: 3}
-  FootstepRockAudioClips:
-  - {fileID: 8300000, guid: 0f6804b854cdb5f4c88edcfe97c19672, type: 3}
-  - {fileID: 8300000, guid: 5a9bbef29447799438588ee1139f10db, type: 3}
-  - {fileID: 8300000, guid: 7e3ebea9bf35e5848b3b0066f9b8bcd3, type: 3}
-  - {fileID: 8300000, guid: a8f31915dabcc5b4b966fc1583464768, type: 3}
-  - {fileID: 8300000, guid: cdf6170bf01c1e241acf03e2f205ffdb, type: 3}
-  - {fileID: 8300000, guid: 4c7b5f3d6035bea4eb7cb3bacd009df5, type: 3}
-  - {fileID: 8300000, guid: f75e2b60e170f4041b3f1a9ae703bd9a, type: 3}
-  - {fileID: 8300000, guid: 130c6b9a2dc17fc4ab8a7de483155a3d, type: 3}
-  - {fileID: 8300000, guid: 39949e5fc28025f4195687f540b5b396, type: 3}
-  - {fileID: 8300000, guid: 8c6e2956bee69774292a13478079bb09, type: 3}
-  FootstepAudioVolume: 0.3
-  JumpHeight: 8
-  Gravity: -150
-  GlidingGravity: -7
-  JumpTimeout: 0
-  FallTimeout: 0.4
-  Grounded: 1
-  GroundedOffset: -0.14
-  GroundedRadius: 0.28
-  GroundLayers:
-    serializedVersion: 2
-    m_Bits: 1
-  SwimSpeed: 40
-  SwimDepth: 0.8
-  FloatForce: 5
-  RaycastDistance: 5
-  RaycastTimeout: 1
-  ClimbingSpeed: 10
-  ClimbingJumpPower: 30
-  MaxStamina: 100
-  StaminaRegenPerSecond: 100
-  FlyStaminaPerSecond: 5
-  JumpStamina: 10
-  CinemachineCameraTarget: {fileID: 209890346}
-  TopClamp: 70
-  BottomClamp: -30
-  CameraAngleOverride: 0
-  LockCameraPosition: 0
 --- !u!143 &278551880
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1100,6 +1011,191 @@ MonoBehaviour:
   - {fileID: 1475341934}
   - {fileID: 19429912}
   - {fileID: 62070596}
+--- !u!114 &278551886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278551875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653eb2acf294fa74088d44cc0c5d1fcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dialogueManager: {fileID: 1625939044}
+--- !u!114 &278551887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278551875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de083a032aea50c429ef0245d37922b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &278551888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278551875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c7c1458667a80342985e9420f551152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &278551889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278551875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 983ec61983a089343a9126407d8f1144, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &278551890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278551875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 619da7e7534791747972288b7ffc9be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &278551891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278551875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a641902f964106544a4d9ac072dc0162, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &278551892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278551875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccbf06fa2ecfdfc4cb6749657a19c1dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 48
+  SprintSpeed: 75
+  RotationSmoothTime: 0.12
+  SpeedChangeRate: 10
+  StepType: 0
+  LandingGrassAudioClip: {fileID: 8300000, guid: dca0c2d49c241804b8cfc209aa821803, type: 3}
+  LandingEarthAudioClip: {fileID: 8300000, guid: e84abef8759661a4ab7a9d1d3b897e73, type: 3}
+  LandingWaterAudioClip: {fileID: 8300000, guid: f78382892f800b4409f2b78c85885c05, type: 3}
+  LandingRockAudioClip: {fileID: 8300000, guid: 72a2661d015582a40b990b3fe1178306, type: 3}
+  SwimAudioClip: {fileID: 8300000, guid: 3e0c6899afe26ac4e8d5b40bf5a5e139, type: 3}
+  WaterJumpAudioClip: {fileID: 8300000, guid: 477fa3992eee6b848a5675fa03d11a60, type: 3}
+  LandingAudioVolume: 0.5
+  FootstepGrassAudioClips:
+  - {fileID: 8300000, guid: e530e13a0f77357458ec53996015101c, type: 3}
+  - {fileID: 8300000, guid: b252be8c054e45b4dba75e6f284bf424, type: 3}
+  - {fileID: 8300000, guid: 4757b569eaf63124aa63f5a707c1ce71, type: 3}
+  - {fileID: 8300000, guid: 55ce63271325c7a4eb7411d1b70a8a4c, type: 3}
+  - {fileID: 8300000, guid: aab74bac0b0a0b24f81946f477b48fb6, type: 3}
+  - {fileID: 8300000, guid: 6d906c64a1158a44bb1a05f1d58523ff, type: 3}
+  - {fileID: 8300000, guid: a727123a5caf3d645b62fe81d3e0c467, type: 3}
+  - {fileID: 8300000, guid: 562d3d1a26e03084485aa11514d7ad01, type: 3}
+  - {fileID: 8300000, guid: 51c26b4b7fedf8d44b7d97eec63dc6ab, type: 3}
+  - {fileID: 8300000, guid: 818e3c2a890df824cbfebc046126fa0a, type: 3}
+  FootstepEarthAudioClips:
+  - {fileID: 8300000, guid: 84f6407fc6057dd4b968d52dd536520f, type: 3}
+  - {fileID: 8300000, guid: 905bcacb5129fd048bc8c7dbd02fea62, type: 3}
+  - {fileID: 8300000, guid: ec7a62d4600beb54694b08558ecdb075, type: 3}
+  - {fileID: 8300000, guid: 1eff9abc739a9264a8d5c2a4e0c52f71, type: 3}
+  - {fileID: 8300000, guid: a2ac22dc367bf99499c61ab6ea9c9f0c, type: 3}
+  - {fileID: 8300000, guid: 63f09fd29d3c99745a04a3b5e9bdb00c, type: 3}
+  - {fileID: 8300000, guid: f35c24d1726ebd04db2894c4b2d6b9f4, type: 3}
+  - {fileID: 8300000, guid: f5216b582b823db4cb6e123121ebdc36, type: 3}
+  - {fileID: 8300000, guid: 96afcac8cd9a52d4299679c38b106b37, type: 3}
+  - {fileID: 8300000, guid: 6416742645831304a88fb5b30d03f97c, type: 3}
+  FootstepWaterAudioClips:
+  - {fileID: 8300000, guid: 45c295676875d2e45aa60e487237ce7a, type: 3}
+  - {fileID: 8300000, guid: d0d2f21e0a3da874795db7b84fb6e845, type: 3}
+  - {fileID: 8300000, guid: 01e9d3b6c977df143a4b43be72fb88b0, type: 3}
+  - {fileID: 8300000, guid: cd9155fdeb437194181e3eef0c5b97bc, type: 3}
+  - {fileID: 8300000, guid: 7e3080d6c34b10740ad2c75465fe277a, type: 3}
+  - {fileID: 8300000, guid: 94d42525175c1e240b93dfaf25accf43, type: 3}
+  - {fileID: 8300000, guid: 8a05d3322e02ac841a71a043dd680ead, type: 3}
+  - {fileID: 8300000, guid: 923d05dde2094544192c0e937e49ddaf, type: 3}
+  - {fileID: 8300000, guid: ad80676c4c38b614aa0c5cdf0bd46d9e, type: 3}
+  - {fileID: 8300000, guid: 080e7f69f93aa084f88376028185186f, type: 3}
+  FootstepRockAudioClips:
+  - {fileID: 8300000, guid: 0f6804b854cdb5f4c88edcfe97c19672, type: 3}
+  - {fileID: 8300000, guid: 5a9bbef29447799438588ee1139f10db, type: 3}
+  - {fileID: 8300000, guid: 7e3ebea9bf35e5848b3b0066f9b8bcd3, type: 3}
+  - {fileID: 8300000, guid: a8f31915dabcc5b4b966fc1583464768, type: 3}
+  - {fileID: 8300000, guid: cdf6170bf01c1e241acf03e2f205ffdb, type: 3}
+  - {fileID: 8300000, guid: 4c7b5f3d6035bea4eb7cb3bacd009df5, type: 3}
+  - {fileID: 8300000, guid: f75e2b60e170f4041b3f1a9ae703bd9a, type: 3}
+  - {fileID: 8300000, guid: 130c6b9a2dc17fc4ab8a7de483155a3d, type: 3}
+  - {fileID: 8300000, guid: 39949e5fc28025f4195687f540b5b396, type: 3}
+  - {fileID: 8300000, guid: 8c6e2956bee69774292a13478079bb09, type: 3}
+  FootstepAudioVolume: 0.5
+  JumpHeight: 8
+  Gravity: -150
+  GlidingGravity: -7
+  TerminalVelocity: 53
+  JumpTimeout: 0
+  FallTimeout: 0.4
+  Grounded: 1
+  GroundedOffset: -0.14
+  GroundedRadius: 0.28
+  GroundLayers:
+    serializedVersion: 2
+    m_Bits: 1
+  SwimSpeed: 40
+  SwimDepth: 0.8
+  FloatForce: 5
+  RaycastDistance: 5
+  RaycastTimeout: 1
+  ClimbingSpeed: 10
+  ClimbingJumpPower: 30
+  MaxStamina: 100
+  StaminaRegenPerSecond: 100
+  FlyStaminaPerSecond: 5
+  JumpStamina: 10
+  CinemachineCameraTarget: {fileID: 209890346}
+  TopClamp: 70
+  BottomClamp: -30
+  CameraAngleOverride: 0
+  LockCameraPosition: 0
+  AnimationBlend: 0
+  TargetRotation: 0
+  RotationVelocity: 0
+--- !u!114 &278551893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278551875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5156463a5bdfee440935fef887dbeceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &286293892 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1632759751195861815, guid: 9991ab84e2ae88d4db233f894c6983b4, type: 3}
@@ -4387,6 +4483,10 @@ PrefabInstance:
       value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: JumpHeight
       value: 8
       objectReference: {fileID: 0}
@@ -4646,7 +4746,8 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
     m_RemovedGameObjects:
     - {fileID: 8187455079231382173, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
     - {fileID: 0}
