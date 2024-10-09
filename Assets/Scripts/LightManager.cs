@@ -15,10 +15,12 @@ public class LightSwitcher : MonoBehaviour
 
     private DialogueVariables _dialogueVariables;
     private bool lightOn = true;
+    private Light[] lights;
 
     void Start()
     {
         _dialogueVariables = GetComponent<DialogueManager>().DialogueVariables;
+        lights = FindObjectsOfType<Light>();
     }
 
     private void SwitchLight()
@@ -41,5 +43,23 @@ public class LightSwitcher : MonoBehaviour
         {
             SwitchLight();
         }  
+        
+        int pointLightCount = 0;
+        Vector4[] lightPositions = new Vector4[4]; // Пример, если ты ожидаешь до 4 источников
+        Vector4[] lightColors = new Vector4[4];
+
+        foreach (Light light in lights)
+        {
+            if (light.type == LightType.Point && pointLightCount < 4) // Убедись, что не выйдешь за пределы массива
+            {
+                lightPositions[pointLightCount] = light.transform.position;
+                lightColors[pointLightCount] = light.color;
+                pointLightCount++;
+            }
+        }
+
+        Shader.SetGlobalInt("_PointLightCount", pointLightCount);
+        Shader.SetGlobalVectorArray("_LightPositions", lightPositions);
+        Shader.SetGlobalVectorArray("_LightColors", lightColors);
     }
 }
