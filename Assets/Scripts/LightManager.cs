@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class LightSwitcher : MonoBehaviour
 {
+    public Color DayDirectionalLight;
+    public Color DayAmbientLight;
+    public Color NightDirectionalLight;
+    public Color NightAmbientLight;
+    
     [Tooltip("Глобальное освещение")]
     public Light directionalLight;
 
@@ -26,10 +31,19 @@ public class LightSwitcher : MonoBehaviour
     private void SwitchLight()
     {
         lightOn = !lightOn;
-        directionalLight.intensity = lightOn ? 1.0f : 0.001f; 
+
+        if (lightOn)
+        {
+            directionalLight.color = DayDirectionalLight;
+            RenderSettings.ambientLight = DayAmbientLight;
+        }
+        else
+        {
+            directionalLight.color = NightDirectionalLight;
+            RenderSettings.ambientLight = NightAmbientLight;
+        }
         pointLight.enabled = !lightOn;
         _dialogueVariables.SetVariable("light_on", new Ink.Runtime.BoolValue(lightOn));
-        
     }
 
     void Update()
