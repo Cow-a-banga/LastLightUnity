@@ -100,9 +100,9 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DepthGradientDeep: {r: 0.2627451, g: 0.2784314, b: 0.62352943, a: 0.7490196}
-    - _DepthGradientShallow: {r: 0.3647059, g: 0.5411765, b: 0.6509804, a: 0.7254902}
+    - _DepthGradientShallow: {r: 0.32156864, g: 0.43137255, b: 0.6392157, a: 0.7254902}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FoamColor: {r: 0.67058825, g: 0.7607843, b: 0.6509804, a: 1}
     - _ShorelineColor: {r: 1, g: 1, b: 1, a: 1}
     - _SurfaceNoiseScroll: {r: 0.03, g: 0.03, b: 0, a: 0}
   m_BuildTextureStacks: []
