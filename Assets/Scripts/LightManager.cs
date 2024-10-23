@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class LightSwitcher : MonoBehaviour
 {
     public Color DayDirectionalLight;
     public Color DayAmbientLight;
     public Color NightDirectionalLight;
     public Color NightAmbientLight;
-    
+
     [Tooltip("Глобальное освещение")]
     public Light directionalLight;
 
@@ -21,6 +23,18 @@ public class LightSwitcher : MonoBehaviour
     private DialogueVariables _dialogueVariables;
     private bool lightOn = true;
     private Light[] lights;
+
+    void OnEnable()
+    {
+        // Подписываемся на событие обновления окна сцены
+        SceneView.duringSceneGui += OnSceneGUI;
+    }
+
+    void OnDisable()
+    {
+        // Отписываемся от события обновления окна сцены
+        SceneView.duringSceneGui -= OnSceneGUI;
+    }
 
     void Start()
     {
@@ -46,18 +60,36 @@ public class LightSwitcher : MonoBehaviour
         _dialogueVariables.SetVariable("light_on", new Ink.Runtime.BoolValue(lightOn));
     }
 
+    void OnSceneGUI(SceneView sceneView)
+    {
+        // Проверяем событие нажатия клавиши только в режиме редактирования
+        if (Event.current != null && Event.current.type == EventType.KeyDown && Event.current.keyCode == switchKey)
+        {
+            Debug.Log("Key pressed: " + Event.current.keyCode);
+            SwitchLight();
+            // Обновляем сцену, чтобы изменения применились
+            SceneView.RepaintAll();
+            // Обработка события, чтобы предотвратить дальнейшее распространение
+            Event.current.Use();
+        }
+    }
+
     void Update()
     {
-        if (Input.GetKeyDown(switchKey))
+        if (Application.isPlaying)
         {
-            SwitchLight();
+            if (Input.GetKeyDown(switchKey))
+            {
+                Debug.Log("hey");
+                SwitchLight();
+            }
+
+            if (((Ink.Runtime.BoolValue)_dialogueVariables.GetVariable("light_on")).value != lightOn)
+            {
+                SwitchLight();
+            }
         }
 
-        if(((Ink.Runtime.BoolValue)_dialogueVariables.GetVariable("light_on")).value != lightOn)
-        {
-            SwitchLight();
-        }  
-        
         int pointLightCount = 0;
         Vector4[] lightPositions = new Vector4[4]; // Пример, если ты ожидаешь до 4 источников
         Vector4[] lightColors = new Vector4[4];
@@ -77,3 +109,4 @@ public class LightSwitcher : MonoBehaviour
         Shader.SetGlobalVectorArray("_LightColors", lightColors);
     }
 }
+    
